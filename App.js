@@ -47,7 +47,6 @@ export default function App() {
           elevated={true}
         >
           <Appbar.Content title="Todo List" color='white' />
-          <Appbar.Action icon="magnify" onPress={() => { }} color='white' />
         </Appbar.Header>
 
         <View style={styles.tasksWrapper}>
@@ -74,9 +73,9 @@ export default function App() {
             >
               {taskItems.map((item, index) => {
                 return (
-                  <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-                    <Task text={item} />
-                  </TouchableOpacity>
+                  <View key={index}>
+                    <Task text={item} completeTask={completeTask} itemIndex={index} />
+                  </View>
                 );
               })}
             </ScrollView>
