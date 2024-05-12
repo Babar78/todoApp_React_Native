@@ -53,16 +53,35 @@ export default function App() {
         <View style={styles.tasksWrapper}>
           <Text style={styles.sectionTitle}>Today's Tasks</Text>
 
-          <ScrollView
-            contentContainerStyle={styles.scrollContentContainer}
-            showsVerticalScrollIndicator={false}
-          >
-            {taskItems.map((item, index) => (
-              <View key={index}>
-                <Task text={item} completeTask={completeTask} itemIndex={index} />
-              </View>
-            ))}
-          </ScrollView>
+          {/* If there is no task show a text otherwise show the task scroll view */}
+          {taskItems.length === 0 ? (
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingBottom: 20,
+            }}>
+              <Text style={{ textAlign: 'center', fontSize: 18, color: "gray" }}>
+                No tasks for today! 🎉
+                {'\n'}
+                Start adding tasks by tapping the '+' button below.
+              </Text>
+            </View>
+          ) : (
+            <ScrollView
+              contentContainerStyle={styles.scrollContentContainer}
+              showsVerticalScrollIndicator={false}
+            >
+              {taskItems.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+                    <Task text={item} />
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          )}
+
         </View>
 
         <KeyboardAvoidingView
