@@ -11,6 +11,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { Appbar } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Task from './components/Task';
 
 export default function App() {
@@ -31,48 +33,56 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
 
-      <StatusBar backgroundColor="#55BCF6" />
+        <StatusBar backgroundColor="white" />
+        {/* App bar */}
 
-      {/* App bar */}
-      <View style={styles.appBar}>
-        <Text style={styles.appBarText}>TODO</Text>
-      </View>
-
-
-      <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Today's Tasks</Text>
-
-        <ScrollView
-          contentContainerStyle={styles.scrollContentContainer}
-          showsVerticalScrollIndicator={false}
+        <Appbar.Header mode='center-aligned' style={
+          {
+            backgroundColor: '#55BCF6',
+          }
+        }
+          elevated={true}
         >
-          {taskItems.map((item, index) => (
-            <TouchableOpacity key={index}>
-              <Task text={item} completeTask={completeTask} itemIndex={index} />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
+          <Appbar.Content title="Todo List" color='white' />
+          <Appbar.Action icon="magnify" onPress={() => { }} color='white' />
+        </Appbar.Header>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.writeTaskWrapper}
-      >
-        <TextInput
-          style={styles.input}
-          placeholder="Write a Task"
-          value={task}
-          onChangeText={(text) => setTask(text)}
-        />
-        <TouchableOpacity onPress={handleAddTask}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <View style={styles.tasksWrapper}>
+          <Text style={styles.sectionTitle}>Today's Tasks</Text>
+
+          <ScrollView
+            contentContainerStyle={styles.scrollContentContainer}
+            showsVerticalScrollIndicator={false}
+          >
+            {taskItems.map((item, index) => (
+              <View key={index}>
+                <Task text={item} completeTask={completeTask} itemIndex={index} />
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.writeTaskWrapper}
+        >
+          <TextInput
+            style={styles.input}
+            placeholder="Write a Task"
+            value={task}
+            onChangeText={(text) => setTask(text)}
+          />
+          <TouchableOpacity onPress={handleAddTask}>
+            <View style={styles.addWrapper}>
+              <Text style={styles.addText}>+</Text>
+            </View>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
@@ -81,30 +91,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e8eaed',
   },
-  appBar: {
-    backgroundColor: '#55BCF6',
-    height: 50,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
-  appBarText: {
-    color: '#FFF',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
   tasksWrapper: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: 20,
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
   scrollContentContainer: {
     flexGrow: 1,
-    paddingTop: 30,
+    paddingTop: 10,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    paddingBottom: 20,
   },
   writeTaskWrapper: {
     position: 'absolute',

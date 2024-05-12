@@ -8,10 +8,6 @@ const Task = (props) => {
         setIsChecked(!isChecked);
     };
 
-    const handleDelete = () => {
-        props.completeTask(props.itemIndex);
-    };
-
     return (
         <View style={styles.item}>
             <View style={styles.itemLeft}>
@@ -22,7 +18,7 @@ const Task = (props) => {
                     {props.text}
                 </Text>
             </View>
-            <View style={styles.circular}>
+            <View style={[styles.circular, isChecked && styles.completeCircular]}>
 
             </View>
         </View>
@@ -72,6 +68,9 @@ const styles = StyleSheet.create({
         borderColor: '#55BCF6',
         borderWidth: 2,
         borderRadius: 5,
+    },
+    completeCircular: {
+        backgroundColor: '#55BCF6',
     },
 });
 
